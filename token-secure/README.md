@@ -77,7 +77,7 @@ TokenSecure/
 ### Step 1: Clone or Download the Project
 
 ```bash
-git clone https://github.com/yourusername/tokensecure.git
+git clone https://github.com/sachinkumar579/vibe-coding.git
 cd tokensecure
 ```
 
