@@ -1,0 +1,149 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f4f6fa;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #loginForm {
+            background: #fff;
+            padding: 32px 28px;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            min-width: 340px;
+            max-width: 90vw;
+        }
+        h2 {
+            margin-top: 0;
+            margin-bottom: 18px;
+            color: #222;
+            font-weight: 600;
+            font-size: 1.5rem;
+        }
+        .form-group {
+            margin: 18px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #555;
+            font-size: 1rem;
+        }
+        input {
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+            outline: none;
+        }
+        input:focus {
+            border-color: #4f8cff;
+            box-shadow: 0 0 0 2px #e3eaff;
+        }
+        button {
+            padding: 12px 28px;
+            background: linear-gradient(90deg,#4f8cff,#3a6eea);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 2px 8px rgba(79,140,255,0.08);
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        button:hover {
+            background: linear-gradient(90deg,#3a6eea,#4f8cff);
+            box-shadow: 0 4px 16px rgba(79,140,255,0.12);
+        }
+        .error {
+            color: #e74c3c;
+            margin-top: 12px;
+        }
+        .success {
+            color: #27ae60;
+            margin-top: 12px;
+        }
+        @media (max-width: 500px) {
+            #loginForm {
+                padding: 18px 8px;
+                min-width: unset;
+            }
+            input {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="loginForm">
+        <div class="form-group">
+            <label>Email:</label>
+            <input type="email" id="email" placeholder="john@example.com" value="admin@example.com">
+        </div>
+        <div class="form-group">
+            <label>Password:</label>
+            <input type="password" id="password" placeholder="password123" password value="admin123">
+        </div>
+        <button onclick="login()">Login</button>
+        <div id="message"></div>
+    </div>
+
+    <script>
+        // Function to handle login
+        async function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const messageDiv = document.getElementById('message');
+
+            if (!email || !password) {
+                messageDiv.innerHTML = '<p class="error">Please enter email and password</p>';
+                return;
+            }
+
+            try {
+                // Step 1: Send login credentials to server
+                const response = await fetch('http://localhost:3000/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Step 2: Server returns token
+                    const token = data.token;
+                    
+                    // Step 3: Store token securely (HTTP-only cookie is best, but we'll use sessionStorage for demo)
+                    sessionStorage.setItem('token', token);
+                    
+                    messageDiv.innerHTML = '<p class="success">Login successful! Redirecting...</p>';
+                    
+                    // Step 4: Redirect to dashboard
+                    setTimeout(() => {
+                        window.location.href = '/dashboard.html';
+                    }, 1500);
+                } else {
+                    messageDiv.innerHTML = `<p class="error">Login failed: ${data.error}</p>`;
+                }
+            } catch (error) {
+                messageDiv.innerHTML = `<p class="error">Error: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!-- dashboard.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f4f6fa;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: #fff;
+            max-width: 800px;
+            width: 90vw;
+            margin: 32px auto;
+            padding: 32px 28px;
+            border-radius: 14px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+        h1 {
+            margin-top: 0;
+            color: #222;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        .section {
+            border: 1px solid #e3eaff;
+            padding: 24px 18px;
+            margin: 24px 0;
+            border-radius: 10px;
+            background: #f8fafc;
+            box-shadow: 0 2px 8px rgba(79,140,255,0.04);
+        }
+        button {
+            padding: 12px 28px;
+            background: linear-gradient(90deg,#4f8cff,#3a6eea);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 8px 0;
+            box-shadow: 0 2px 8px rgba(79,140,255,0.08);
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        button:hover {
+            background: linear-gradient(90deg,#3a6eea,#4f8cff);
+            box-shadow: 0 4px 16px rgba(79,140,255,0.12);
+        }
+        .response {
+            background: #f4f6fa;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-shadow: 0 2px 8px rgba(79,140,255,0.04);
+        }
+        .success {
+            color: #27ae60;
+            margin-top: 12px;
+        }
+        .error {
+            color: #e74c3c;
+            margin-top: 12px;
+        }
+        .info {
+            color: #3a6eea;
+            margin-top: 12px;
+        }
+        input[type="number"] {
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 1rem;
+            margin-right: 8px;
+            width: 180px;
+            transition: border-color 0.2s;
+            outline: none;
+        }
+        input[type="number"]:focus {
+            border-color: #4f8cff;
+            box-shadow: 0 0 0 2px #e3eaff;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+        }
+        th, td {
+            border: 1px solid #e3eaff;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background: #4f8cff;
+            color: #fff;
+        }
+        @media (max-width: 900px) {
+            .container {
+                padding: 18px 8px;
+            }
+            .section {
+                padding: 12px 6px;
+            }
+            input[type="number"] {
+                width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Dashboard</h1>
+        <p id="userInfo"></p>
+        <button onclick="logout()">Logout</button>
+
+        <!-- Section 1: Public Data -->
+        <div class="section">
+            <h2>Public Data (Everyone Can Access)</h2>
+            <button onclick="getPublicData()">Get Public Data</button>
+            <div id="publicResponse" class="response" style="display:none;"></div>
+        </div>
+
+        <!-- Section 2: Protected User Data -->
+        <div class="section">
+            <h2>Protected User Data (Authenticated Users)</h2>
+            <button onclick="getProtectedData()">Get My Profile</button>
+            <div id="protectedResponse" class="response" style="display:none;"></div>
+        </div>
+
+        <!-- Section 3: Admin Data -->
+        <div class="section">
+            <h2>Admin Data (Admin Only)</h2>
+            <button onclick="getAdminData()">Get Admin Dashboard</button>
+            <div id="adminResponse" class="response" style="display:none;"></div>
+        </div>
+
+        <!-- Section 4: Delete User (Admin Only) -->
+        <div class="section">
+            <h2>Admin Actions</h2>
+            <input type="number" id="userIdToDelete" placeholder="User ID to delete">
+            <button onclick="deleteUser()">Delete User</button>
+            <div id="deleteResponse" class="response" style="display:none;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Utility function to get token from storage
+        function getToken() {
+            return sessionStorage.getItem('token');
+        }
+
+        // Utility function to display user info from token
+        function displayUserInfo() {
+            const token = getToken();
+            if (!token) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            // Decode JWT payload (Note: this is just decoding, not verifying)
+            // In production, don't rely on client-side token validation
+            try {
+                const parts = token.split('.');
+                const payload = JSON.parse(atob(parts[1]));
+                document.getElementById('userInfo').innerHTML = 
+                    `<p class="info">Logged in as: <strong>${payload.email}</strong> (Role: ${payload.role})</p>`;
+            } catch (error) {
+                console.error('Error decoding token:', error);
+            }
+        }
+
+        // Call this when page loads
+        window.onload = function() {
+            displayUserInfo();
+        };
+
+        // API Call 1: Get Public Data (No token needed)
+        async function getPublicData() {
+            try {
+                const response = await fetch('http://localhost:3000/api/public', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+                displayResponse('publicResponse', response.status, data);
+            } catch (error) {
+                displayResponse('publicResponse', 'error', { error: error.message });
+            }
+        }
+
+        // API Call 2: Get Protected Data (Token required)
+        async function getProtectedData() {
+            try {
+                const token = getToken();
+                
+                if (!token) {
+                    displayResponse('protectedResponse', 'error', { error: 'No token found. Please login.' });
+                    return;
+                }
+
+                const response = await fetch('http://localhost:3000/api/protected/profile', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`  // Pass token in header
+                    }
+                });
+
+                const data = await response.json();
+                displayResponse('protectedResponse', response.status, data);
+            } catch (error) {
+                displayResponse('protectedResponse', 'error', { error: error.message });
+            }
+        }
+
+        // API Call 3: Get Admin Data (Token + Admin Role required)
+        async function getAdminData() {
+            try {
+                const token = getToken();
+                
+                if (!token) {
+                    displayResponse('adminResponse', 'error', { error: 'No token found. Please login.' });
+                    return;
+                }
+
+                const response = await fetch('http://localhost:3000/api/admin/dashboard', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                const data = await response.json();
+                displayResponse('adminResponse', response.status, data);
+            } catch (error) {
+                displayResponse('adminResponse', 'error', { error: error.message });
+            }
+        }
+
+        // API Call 4: Delete User (Admin Only)
+        async function deleteUser() {
+            const userId = document.getElementById('userIdToDelete').value;
+            
+            if (!userId) {
+                displayResponse('deleteResponse', 'error', { error: 'Please enter a User ID' });
+                return;
+            }
+
+            try {
+                const token = getToken();
+                
+                const response = await fetch(`http://localhost:3000/api/admin/users/${userId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                const data = await response.json();
+                displayResponse('deleteResponse', response.status, data);
+            } catch (error) {
+                displayResponse('deleteResponse', 'error', { error: error.message });
+            }
+        }
+
+        // Logout function
+        function logout() {
+            sessionStorage.removeItem('token');
+            window.location.href = '/login.html';
+        }
+
+        // Helper function to display responses
+        function displayResponse(elementId, status, data) {
+            const element = document.getElementById(elementId);
+            const statusClass = (status >= 200 && status < 300) ? 'success' : 'error';
+            const statusText = (typeof status === 'number') ? `HTTP ${status}` : status;
+            
+            element.innerHTML = `
+                <p class="${statusClass}"><strong>Status:</strong> ${statusText}</p>
+                <pre>${JSON.stringify(data, null, 2)}</pre>
+            `;
+            element.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
