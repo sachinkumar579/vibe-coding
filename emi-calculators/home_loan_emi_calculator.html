@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Loan Calculator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=DM+Sans:wght@400;500;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f1419 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #e2e8f0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #94a3b8;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .input-panel {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.6));
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            height: fit-content;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #cbd5e1;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .input-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 8px;
+            background: linear-gradient(to right, #3b82f6, #06b6d4);
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ffffff;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+            transition: all 0.2s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+            box-shadow: 0 6px 18px rgba(59, 130, 246, 0.6);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ffffff;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+            transition: all 0.2s ease;
+        }
+
+        input[type="range"]::-moz-range-track {
+            background: transparent;
+            border: none;
+        }
+
+        input[type="range"]::-moz-range-progress {
+            background: linear-gradient(to right, #3b82f6, #06b6d4);
+            height: 6px;
+            border-radius: 8px;
+        }
+
+        .text-input {
+            padding: 10px 12px;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 8px;
+            color: #06b6d4;
+            font-weight: 600;
+            font-size: 0.95rem;
+            font-family: 'DM Sans', monospace;
+            transition: all 0.3s ease;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: #06b6d4;
+            background: rgba(6, 182, 212, 0.1);
+            box-shadow: 0 0 12px rgba(6, 182, 212, 0.3);
+        }
+
+        .text-input::-webkit-outer-spin-button,
+        .text-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .text-input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        .results-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.6));
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 16px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        .result-label {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .result-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #06b6d4;
+            font-family: 'DM Sans', monospace;
+            word-break: break-word;
+        }
+
+        .result-card.highlight {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(6, 182, 212, 0.15));
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+
+        .result-card.highlight .result-value {
+            color: #06b6d4;
+            text-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+            font-size: 2.2rem;
+        }
+
+        .charts-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 1024px) {
+            .charts-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chart-container {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.6));
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 16px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        .chart-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .chart-canvas {
+            position: relative;
+            height: 300px;
+            margin-bottom: 10px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            background: rgba(59, 130, 246, 0.1);
+            color: #94a3b8;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+            border-color: #06b6d4;
+            color: #ffffff;
+        }
+
+        .tab-button:hover:not(.active) {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeInUp 0.3s ease-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .amortization-table {
+            overflow-y: auto;
+            max-height: 500px;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 8px;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .table-header {
+            display: grid;
+            grid-template-columns: 80px 1fr 1fr 1fr 1fr;
+            gap: 15px;
+            padding: 12px 15px;
+            background: rgba(59, 130, 246, 0.1);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #60a5fa;
+            position: sticky;
+            top: 0;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 80px 1fr 1fr 1fr 1fr;
+            gap: 15px;
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.05);
+            font-size: 0.85rem;
+            color: #cbd5e1;
+        }
+
+        .table-row:hover {
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .table-row:nth-child(even) {
+            background: rgba(59, 130, 246, 0.02);
+        }
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .summary-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .stat-box {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #06b6d4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Home Loan EMI Calculator</h1>
+            <p class="subtitle">Calculate your EMI with detailed amortization & analytics</p>
+        </div>
+
+        <div class="main-content">
+            <!-- Input Panel -->
+            <div class="input-panel">
+                <div class="input-group">
+                    <label for="homePrice">Home Price (₹)</label>
+                    <div class="input-wrapper">
+                        <input type="range" id="homePrice" min="0" max="100000000" step="100000" value="4000000">
+                        <input type="number" id="homePriceInput" class="text-input" value="4000000" min="0" max="100000000" step="100000">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="interestRate">Interest Rate (%)</label>
+                    <div class="input-wrapper">
+                        <input type="range" id="interestRate" min="1" max="12" step="0.1" value="8">
+                        <input type="number" id="interestRateInput" class="text-input" value="8" min="1" max="12" step="0.1">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="loanTermYears">Loan Term</label>
+                    <div class="input-wrapper" style="display: flex; gap: 10px; align-items: center;">
+                        <input type="range" id="loanTermYears" min="0" max="40" step="1" value="20" style="flex:2;">
+                        <input type="number" id="loanTermYearsInput" class="text-input" value="20" min="0" max="40" step="1" style="width:70px;">
+                        <span>Years</span>
+                        <input type="range" id="loanTermMonths" min="0" max="11" step="1" value="0" style="flex:1;">
+                        <input type="number" id="loanTermMonthsInput" class="text-input" value="0" min="0" max="11" step="1" style="width:60px;">
+                        <span>Months</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Panel -->
+            <div class="results-panel">
+                <div class="result-card">
+                    <div class="result-label">Loan Amount</div>
+                    <div class="result-value" id="loanAmount">₹40,00,000</div>
+                </div>
+
+                <div class="result-card highlight">
+                    <div class="result-label">Monthly EMI</div>
+                    <div class="result-value" id="emiAmount">₹19,145</div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-label">Total Interest to Pay</div>
+                    <div class="result-value" id="totalInterest">₹20,34,800</div>
+                </div>
+
+                <div class="result-card highlight">
+                    <div class="result-label">Total Cost</div>
+                    <div class="result-value" id="totalCost">₹60,34,800</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-section">
+            <div class="chart-container">
+                <div class="chart-title">EMI vs Principal Breakdown</div>
+                <div class="chart-canvas">
+                    <canvas id="pieChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Amortization Over Time</div>
+                <div class="chart-canvas">
+                    <canvas id="amortizationChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Principal vs Interest per Year</div>
+                <div class="chart-canvas">
+                    <canvas id="yearlyChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Cumulative Payment Progress</div>
+                <div class="chart-canvas">
+                    <canvas id="progressChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary & Amortization Section -->
+        <div class="chart-container">
+            <div class="tabs">
+                <button class="tab-button active" onclick="switchTab('summary')">Summary</button>
+                <button class="tab-button" onclick="switchTab('amortization')">Amortization Schedule</button>
+            </div>
+
+            <div id="summary" class="tab-content active">
+                <div class="summary-stats">
+                    <div class="stat-box">
+                        <div class="stat-label">Loan Amount</div>
+                        <div class="stat-value" id="summaryLoan">₹40,00,000</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Monthly EMI</div>
+                        <div class="stat-value" id="summaryEmi">₹19,145</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Total Interest</div>
+                        <div class="stat-value" id="summaryInterest">₹20,34,800</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Total Cost</div>
+                        <div class="stat-value" id="summaryCost">₹60,34,800</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="amortization" class="tab-content">
+                <div class="amortization-table">
+                    <div class="table-header">
+                        <div>Month</div>
+                        <div>EMI (₹)</div>
+                        <div>Principal (₹)</div>
+                        <div>Interest (₹)</div>
+                        <div>Balance (₹)</div>
+                    </div>
+                    <div id="tableContent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let pieChart, amortizationChart, yearlyChart, progressChart;
+
+        const inputs = {
+            homePrice: document.getElementById('homePrice'),
+            interestRate: document.getElementById('interestRate'),
+            loanTermYears: document.getElementById('loanTermYears'),
+            loanTermMonths: document.getElementById('loanTermMonths')
+        };
+
+        const textInputs = {
+            homePrice: document.getElementById('homePriceInput'),
+            interestRate: document.getElementById('interestRateInput'),
+            loanTermYears: document.getElementById('loanTermYearsInput'),
+            loanTermMonths: document.getElementById('loanTermMonthsInput')
+        };
+
+        function formatCurrency(value) {
+            // For principal, show full value with commas, no rounding
+            return '₹' + value.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+        }
+
+        function formatCurrencySimple(value) {
+            // For EMI, interest, etc., round to nearest integer with commas
+            return Math.round(value).toLocaleString('en-IN');
+        }
+
+        function calculateLoan() {
+            // Always use the value from the Home Price text box for calculation and display
+            const homePriceInput = document.getElementById('homePriceInput');
+            let homePrice = parseFloat(homePriceInput.value);
+            if (isNaN(homePrice)) homePrice = 0;
+            const annualRate = parseFloat(inputs.interestRate.value);
+            const years = parseInt(inputs.loanTermYears.value) || 0;
+            const months = parseInt(inputs.loanTermMonths.value) || 0;
+            const totalMonths = years * 12 + months;
+
+            // For simplicity, 100% loan (no down payment)
+            const loanAmount = homePrice;
+
+            // Calculate monthly payment (EMI)
+            const monthlyRate = annualRate / 100 / 12;
+            const numberOfPayments = totalMonths;
+            let monthlyEmi;
+
+            if (monthlyRate === 0) {
+                monthlyEmi = loanAmount / numberOfPayments;
+            } else {
+                monthlyEmi = (loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments))) /
+                    (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
+            }
+
+            const totalPaid = monthlyEmi * numberOfPayments;
+            const totalInterest = totalPaid - loanAmount;
+
+            // Update results
+            // Display the value from the Home Price text box, formatted
+            document.getElementById('loanAmount').textContent = formatCurrency(homePriceInput.value ? parseFloat(homePriceInput.value) : 0);
+            document.getElementById('emiAmount').textContent = formatCurrencySimple(monthlyEmi);
+            document.getElementById('totalInterest').textContent = formatCurrencySimple(totalInterest);
+            document.getElementById('totalCost').textContent = formatCurrencySimple(totalPaid);
+
+            // Update summary
+            document.getElementById('summaryLoan').textContent = formatCurrency(homePriceInput.value ? parseFloat(homePriceInput.value) : 0);
+            document.getElementById('summaryEmi').textContent = formatCurrencySimple(monthlyEmi);
+            document.getElementById('summaryInterest').textContent = formatCurrencySimple(totalInterest);
+            document.getElementById('summaryCost').textContent = formatCurrencySimple(totalPaid);
+
+            // Generate amortization data
+            const amortizationData = generateAmortizationData(loanAmount, monthlyRate, numberOfPayments, monthlyEmi);
+
+            // Update tables and charts
+            generateAmortizationTable(amortizationData);
+            updateCharts(loanAmount, totalInterest, amortizationData);
+        }
+
+        function generateAmortizationData(principal, monthlyRate, months, monthlyEmi) {
+            const data = [];
+            let balance = principal;
+
+            for (let month = 1; month <= months; month++) {
+                const interestPayment = balance * monthlyRate;
+                const principalPayment = monthlyEmi - interestPayment;
+                balance -= principalPayment;
+
+                data.push({
+                    month,
+                    emi: monthlyEmi,
+                    principal: Math.max(0, principalPayment),
+                    interest: Math.max(0, interestPayment),
+                    balance: Math.max(0, balance)
+                });
+            }
+
+            return data;
+        }
+
+        function generateAmortizationTable(data) {
+            const tableContent = document.getElementById('tableContent');
+            tableContent.innerHTML = '';
+
+            data.forEach(row => {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'table-row';
+                rowDiv.innerHTML = `
+                    <div>${row.month}</div>
+                    <div>₹${formatCurrencySimple(row.emi)}</div>
+                    <div>₹${formatCurrencySimple(row.principal)}</div>
+                    <div>₹${formatCurrencySimple(row.interest)}</div>
+                    <div>₹${formatCurrencySimple(row.balance)}</div>
+                `;
+                tableContent.appendChild(rowDiv);
+            });
+        }
+
+        function updateCharts(loanAmount, totalInterest, amortizationData) {
+            // Pie Chart - EMI vs Principal
+            if (pieChart) {
+                pieChart.data.datasets[0].data = [loanAmount, totalInterest];
+                pieChart.update();
+            } else {
+                const pieCtx = document.getElementById('pieChart').getContext('2d');
+                pieChart = new Chart(pieCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Principal', 'Total Interest'],
+                        datasets: [{
+                            data: [loanAmount, totalInterest],
+                            backgroundColor: ['#3b82f6', '#f59e0b'],
+                            borderColor: ['#1e293b', '#1e293b'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: '#cbd5e1',
+                                    font: { size: 12 }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Amortization Chart - Principal vs Interest over time
+            const sampleData = amortizationData.filter((_, i) => i % Math.ceil(amortizationData.length / 50) === 0);
+            if (amortizationChart) {
+                amortizationChart.data.labels = sampleData.map(d => `M${d.month}`);
+                amortizationChart.data.datasets[0].data = sampleData.map(d => d.principal);
+                amortizationChart.data.datasets[1].data = sampleData.map(d => d.interest);
+                amortizationChart.update();
+            } else {
+                const amortCtx = document.getElementById('amortizationChart').getContext('2d');
+                amortizationChart = new Chart(amortCtx, {
+                    type: 'line',
+                    data: {
+                        labels: sampleData.map(d => `M${d.month}`),
+                        datasets: [
+                            {
+                                label: 'Principal',
+                                data: sampleData.map(d => d.principal),
+                                borderColor: '#06b6d4',
+                                backgroundColor: 'rgba(6, 182, 212, 0.1)',
+                                tension: 0.4,
+                                borderWidth: 2,
+                                pointRadius: 2
+                            },
+                            {
+                                label: 'Interest',
+                                data: sampleData.map(d => d.interest),
+                                borderColor: '#f59e0b',
+                                backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                                tension: 0.4,
+                                borderWidth: 2,
+                                pointRadius: 2
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: '#cbd5e1' }
+                            }
+                        },
+                        scales: {
+                            x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(148, 163, 184, 0.1)' } },
+                            y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(148, 163, 184, 0.1)' } }
+                        }
+                    }
+                });
+            }
+
+            // Yearly Chart - Principal vs Interest per year
+            const yearlyData = generateYearlyData(amortizationData);
+            if (yearlyChart) {
+                yearlyChart.data.labels = yearlyData.map(d => `Y${d.year}`);
+                yearlyChart.data.datasets[0].data = yearlyData.map(d => d.principal);
+                yearlyChart.data.datasets[1].data = yearlyData.map(d => d.interest);
+                yearlyChart.update();
+            } else {
+                const yearlyCtx = document.getElementById('yearlyChart').getContext('2d');
+                yearlyChart = new Chart(yearlyCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: yearlyData.map(d => `Y${d.year}`),
+                        datasets: [
+                            {
+                                label: 'Principal',
+                                data: yearlyData.map(d => d.principal),
+                                backgroundColor: '#06b6d4',
+                                borderRadius: 4
+                            },
+                            {
+                                label: 'Interest',
+                                data: yearlyData.map(d => d.interest),
+                                backgroundColor: '#f59e0b',
+                                borderRadius: 4
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: '#cbd5e1' }
+                            }
+                        },
+                        scales: {
+                            x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(148, 163, 184, 0.1)' } },
+                            y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(148, 163, 184, 0.1)' } }
+                        }
+                    }
+                });
+            }
+
+            // Progress Chart - Cumulative Payment
+            const progressData = generateProgressData(amortizationData);
+            if (progressChart) {
+                progressChart.data.labels = progressData.map(d => `M${d.month}`);
+                progressChart.data.datasets[0].data = progressData.map(d => d.cumulativePrincipal);
+                progressChart.data.datasets[1].data = progressData.map(d => d.cumulativeInterest);
+                progressChart.update();
+            } else {
+                const progressCtx = document.getElementById('progressChart').getContext('2d');
+                progressChart = new Chart(progressCtx, {
+                    type: 'area',
+                    data: {
+                        labels: progressData.map(d => `M${d.month}`),
+                        datasets: [
+                            {
+                                label: 'Cumulative Principal',
+                                data: progressData.map(d => d.cumulativePrincipal),
+                                borderColor: '#06b6d4',
+                                backgroundColor: 'rgba(6, 182, 212, 0.2)',
+                                tension: 0.4,
+                                borderWidth: 2,
+                                fill: true,
+                                pointRadius: 0
+                            },
+                            {
+                                label: 'Cumulative Interest',
+                                data: progressData.map(d => d.cumulativeInterest),
+                                borderColor: '#f59e0b',
+                                backgroundColor: 'rgba(245, 158, 11, 0.2)',
+                                tension: 0.4,
+                                borderWidth: 2,
+                                fill: true,
+                                pointRadius: 0
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: '#cbd5e1' }
+                            }
+                        },
+                        scales: {
+                            x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(148, 163, 184, 0.1)' } },
+                            y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(148, 163, 184, 0.1)' } }
+                        }
+                    }
+                });
+            }
+        }
+
+        function generateYearlyData(amortizationData) {
+            const yearlyData = {};
+
+            amortizationData.forEach(row => {
+                const year = Math.ceil(row.month / 12);
+                if (!yearlyData[year]) {
+                    yearlyData[year] = { year, principal: 0, interest: 0 };
+                }
+                yearlyData[year].principal += row.principal;
+                yearlyData[year].interest += row.interest;
+            });
+
+            return Object.values(yearlyData);
+        }
+
+        function generateProgressData(amortizationData) {
+            let cumulativePrincipal = 0;
+            let cumulativeInterest = 0;
+
+            return amortizationData
+                .filter((_, i) => i % Math.ceil(amortizationData.length / 50) === 0)
+                .map(row => {
+                    cumulativePrincipal += row.principal;
+                    cumulativeInterest += row.interest;
+                    return {
+                        month: row.month,
+                        cumulativePrincipal,
+                        cumulativeInterest
+                    };
+                });
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-button').forEach(el => el.classList.remove('active'));
+
+            document.getElementById(tab).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Event listeners
+        Object.keys(inputs).forEach(key => {
+            // When range input changes, update number input and recalculate
+            inputs[key].addEventListener('input', (e) => {
+                textInputs[key].value = e.target.value;
+                calculateLoan();
+            });
+
+            // When number input changes, update range input and recalculate
+            textInputs[key].addEventListener('input', (e) => {
+                let value = e.target.value;
+                // Allow empty string for editing
+                if (value === '') {
+                    // Don't update the range or calculate until user finishes typing
+                    return;
+                }
+                let numValue = parseFloat(value);
+                if (isNaN(numValue)) numValue = 0;
+                const min = parseFloat(inputs[key].min);
+                const max = parseFloat(inputs[key].max);
+                // Only clamp if out of bounds, except for homePrice min (allow any value)
+                if (key !== 'homePrice' && numValue < min) numValue = min;
+                if (numValue > max) numValue = max;
+                inputs[key].value = numValue;
+                // Only update the number input if the value was out of bounds
+                if (parseFloat(e.target.value) !== numValue) {
+                    e.target.value = numValue;
+                }
+                calculateLoan();
+            });
+        });
+
+        // Initial calculation
+        calculateLoan();
+    </script>
+</body>
+</html>

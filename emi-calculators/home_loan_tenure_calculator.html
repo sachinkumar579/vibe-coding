@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Loan Tenure Calculator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=DM+Sans:wght@400;500;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f1419 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #e2e8f0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #94a3b8;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .input-panel {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.6));
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            height: fit-content;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #cbd5e1;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .input-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 8px;
+            background: linear-gradient(to right, #3b82f6, #06b6d4);
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ffffff;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+            transition: all 0.2s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+            box-shadow: 0 6px 18px rgba(59, 130, 246, 0.6);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ffffff;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+            transition: all 0.2s ease;
+        }
+
+        input[type="range"]::-moz-range-track {
+            background: transparent;
+            border: none;
+        }
+
+        input[type="range"]::-moz-range-progress {
+            background: linear-gradient(to right, #3b82f6, #06b6d4);
+            height: 6px;
+            border-radius: 8px;
+        }
+
+        .text-input {
+            padding: 10px 12px;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 8px;
+            color: #06b6d4;
+            font-weight: 600;
+            font-size: 0.95rem;
+            font-family: 'DM Sans', monospace;
+            transition: all 0.3s ease;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: #06b6d4;
+            background: rgba(6, 182, 212, 0.1);
+            box-shadow: 0 0 12px rgba(6, 182, 212, 0.3);
+        }
+
+        .text-input::-webkit-outer-spin-button,
+        .text-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .text-input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        .results-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.6));
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 16px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        .result-label {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .result-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #06b6d4;
+            font-family: 'DM Sans', monospace;
+            word-break: break-word;
+        }
+
+        .result-card.highlight {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(6, 182, 212, 0.15));
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+
+        .result-card.highlight .result-value {
+            color: #06b6d4;
+            text-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+            font-size: 2.2rem;
+        }
+
+        .summary-section {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.6));
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            margin-top: 40px;
+        }
+
+        .summary-title {
+            font-family: 'Merriweather', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .summary-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .stat-box {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #06b6d4;
+            font-family: 'DM Sans', monospace;
+        }
+
+        .details-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .details-table th {
+            background: rgba(59, 130, 246, 0.1);
+            color: #60a5fa;
+            padding: 12px 15px;
+            text-align: left;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .details-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+            color: #cbd5e1;
+            font-size: 0.9rem;
+        }
+
+        .details-table tr:hover {
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .details-table tr:nth-child(even) {
+            background: rgba(59, 130, 246, 0.02);
+        }
+
+        .info-box {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        .info-box strong {
+            color: #06b6d4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Home Loan Tenure Calculator</h1>
+            <p class="subtitle">Calculate your loan tenure given loan amount, interest rate & EMI</p>
+        </div>
+
+        <div class="main-content">
+            <!-- Input Panel -->
+            <div class="input-panel">
+                <div class="input-group">
+                    <label for="loanAmount">Loan Amount (₹)</label>
+                    <div class="input-wrapper">
+                        <input type="range" id="loanAmount" min="0" max="100000000" step="100000" value="4000000">
+                        <input type="number" id="loanAmountInput" class="text-input" value="4000000" min="0" max="100000000" step="100000">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="interestRate">Interest Rate (%)</label>
+                    <div class="input-wrapper">
+                        <input type="range" id="interestRate" min="0" max="12" step="0.01" value="8.25">
+                        <input type="number" id="interestRateInput" class="text-input" value="8.25" min="0" max="12" step="0.01">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="emiAmount">Monthly EMI (₹)</label>
+                    <div class="input-wrapper">
+                        <input type="range" id="emiAmount" min="0" max="500000" step="1000" value="16667">
+                        <input type="number" id="emiAmountInput" class="text-input" value="16667" min="0" max="500000" step="1000">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Panel -->
+            <div class="results-panel">
+                <div class="result-card">
+                    <div class="result-label">Loan Amount</div>
+                    <div class="result-value" id="resultLoanAmount">₹40,00,000</div>
+                </div>
+
+                <div class="result-card highlight">
+                    <div class="result-label">Loan Tenure</div>
+                    <div class="result-value" id="resultTenure">20 Yrs 0 Mo</div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-label">Monthly EMI</div>
+                    <div class="result-value" id="resultEmi">₹16,667</div>
+                </div>
+
+                <div class="result-card highlight">
+                    <div class="result-label">Total Amount Payable</div>
+                    <div class="result-value" id="resultTotalPayable">₹40,00,000</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Section -->
+        <div class="summary-section">
+            <div class="summary-title">Loan Summary</div>
+
+            <div class="summary-stats">
+                <div class="stat-box">
+                    <div class="stat-label">Loan Amount</div>
+                    <div class="stat-value" id="summaryLoanAmount">₹40,00,000</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Interest Rate (p.a.)</div>
+                    <div class="stat-value" id="summaryInterestRate">8.25%</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Tenure</div>
+                    <div class="stat-value" id="summaryTenure">300 Months</div>
+                </div>
+            </div>
+
+            <div class="summary-stats">
+                <div class="stat-box">
+                    <div class="stat-label">Monthly EMI</div>
+                    <div class="stat-value" id="summaryEmi">₹16,667</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Total Interest to Pay</div>
+                    <div class="stat-value" id="summaryTotalInterest">₹2,00,00,000</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Total Amount Payable</div>
+                    <div class="stat-value" id="summaryTotalPayable">₹6,00,00,000</div>
+                </div>
+            </div>
+
+            <table class="details-table">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Amount (₹)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Principal Amount</td>
+                        <td id="tableLoanAmount">₹40,00,000</td>
+                    </tr>
+                    <tr>
+                        <td>Monthly EMI</td>
+                        <td id="tableEmi">₹16,667</td>
+                    </tr>
+                    <tr>
+                        <td>Tenure (Years)</td>
+                        <td id="tableTenureYears">25 Years</td>
+                    </tr>
+                    <tr>
+                        <td>Tenure (Months)</td>
+                        <td id="tableTenureMonths">300 Months</td>
+                    </tr>
+                    <tr>
+                        <td>Total Interest Payable</td>
+                        <td id="tableTotalInterest">₹2,00,00,000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total Amount Payable</strong></td>
+                        <td id="tableTotalPayable"><strong>₹6,00,00,000</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box">
+                💡 <strong>How it works:</strong> This calculator determines the tenure required to pay off your loan given the principal amount, interest rate, and monthly EMI. If your EMI is lower, the tenure will be longer, and vice versa.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const inputs = {
+            loanAmount: document.getElementById('loanAmount'),
+            interestRate: document.getElementById('interestRate'),
+            emiAmount: document.getElementById('emiAmount')
+        };
+
+        const textInputs = {
+            loanAmount: document.getElementById('loanAmountInput'),
+            interestRate: document.getElementById('interestRateInput'),
+            emiAmount: document.getElementById('emiAmountInput')
+        };
+
+        function formatCurrency(value) {
+            return '₹' + Math.round(value).toLocaleString('en-IN');
+        }
+
+        function formatCurrencySimple(value) {
+            return Math.round(value).toLocaleString('en-IN');
+        }
+
+        function calculateTenure() {
+            // Always use values from the number input (text box)
+            const loanAmountInput = document.getElementById('loanAmountInput');
+            const interestRateInput = document.getElementById('interestRateInput');
+            const emiAmountInput = document.getElementById('emiAmountInput');
+
+            let loanAmount = parseFloat(loanAmountInput.value) || 0;
+            let annualRate = parseFloat(interestRateInput.value) || 0;
+            let monthlyEmi = parseFloat(emiAmountInput.value) || 0;
+
+            if (loanAmount <= 0 || monthlyEmi <= 0) {
+                return;
+            }
+
+            const monthlyRate = annualRate / 100 / 12;
+
+            let numberOfMonths = 0;
+
+            if (monthlyRate === 0) {
+                // No interest, simple division
+                numberOfMonths = loanAmount / monthlyEmi;
+            } else {
+                // Using the formula: n = -log(1 - (P*r)/E) / log(1 + r)
+                // where P = principal, r = monthly rate, E = EMI, n = number of months
+                const numerator = 1 - (loanAmount * monthlyRate) / monthlyEmi;
+                
+                if (numerator <= 0) {
+                    // EMI is too low to pay off the loan
+                    numberOfMonths = Infinity;
+                } else {
+                    numberOfMonths = -Math.log(numerator) / Math.log(1 + monthlyRate);
+                }
+            }
+
+            // Handle invalid case
+            if (!isFinite(numberOfMonths) || numberOfMonths < 0) {
+                numberOfMonths = 0;
+            }
+
+            numberOfMonths = Math.ceil(numberOfMonths);
+
+            // Calculate tenure in years and months
+            const years = Math.floor(numberOfMonths / 12);
+            const months = numberOfMonths % 12;
+
+            // Calculate total amount payable and interest
+            const totalPayable = monthlyEmi * numberOfMonths;
+            const totalInterest = totalPayable - loanAmount;
+
+            // Update result cards
+            document.getElementById('resultLoanAmount').textContent = formatCurrency(loanAmountInput.value ? parseFloat(loanAmountInput.value) : 0);
+            document.getElementById('resultTenure').textContent = `${years} Yrs ${months} Mo`;
+            document.getElementById('resultEmi').textContent = formatCurrency(emiAmountInput.value ? parseFloat(emiAmountInput.value) : 0);
+            document.getElementById('resultTotalPayable').textContent = formatCurrency(totalPayable);
+
+            // Update summary stats
+            document.getElementById('summaryLoanAmount').textContent = formatCurrency(loanAmountInput.value ? parseFloat(loanAmountInput.value) : 0);
+            document.getElementById('summaryInterestRate').textContent = interestRateInput.value ? parseFloat(interestRateInput.value).toFixed(2) + '%' : '0.00%';
+            document.getElementById('summaryTenure').textContent = numberOfMonths + ' Months';
+            document.getElementById('summaryEmi').textContent = formatCurrency(emiAmountInput.value ? parseFloat(emiAmountInput.value) : 0);
+            document.getElementById('summaryTotalInterest').textContent = formatCurrency(totalInterest);
+            document.getElementById('summaryTotalPayable').textContent = formatCurrency(totalPayable);
+
+            // Update table
+            document.getElementById('tableLoanAmount').textContent = formatCurrency(loanAmountInput.value ? parseFloat(loanAmountInput.value) : 0);
+            document.getElementById('tableEmi').textContent = formatCurrency(emiAmountInput.value ? parseFloat(emiAmountInput.value) : 0);
+            document.getElementById('tableTenureYears').textContent = years + ' Years';
+            document.getElementById('tableTenureMonths').textContent = numberOfMonths + ' Months';
+            document.getElementById('tableTotalInterest').textContent = formatCurrency(totalInterest);
+            document.getElementById('tableTotalPayable').textContent = formatCurrency(totalPayable);
+        }
+
+        // Event listeners
+        Object.keys(inputs).forEach(key => {
+            // When range input changes
+            inputs[key].addEventListener('input', (e) => {
+                textInputs[key].value = e.target.value;
+                calculateTenure();
+            });
+
+            // When number input changes
+            textInputs[key].addEventListener('input', (e) => {
+                let value = e.target.value;
+                if (value === '') {
+                    return;
+                }
+                let numValue = parseFloat(value);
+                if (isNaN(numValue)) numValue = 0;
+                const min = parseFloat(inputs[key].min);
+                const max = parseFloat(inputs[key].max);
+                // Only clamp if out of bounds, except for loanAmount, interestRate, emiAmount min (allow any value)
+                if (!['loanAmount', 'interestRate', 'emiAmount'].includes(key) && numValue < min) numValue = min;
+                if (numValue > max) numValue = max;
+                inputs[key].value = numValue;
+                if (parseFloat(e.target.value) !== numValue) {
+                    e.target.value = numValue;
+                }
+                calculateTenure();
+            });
+        });
+
+        // Initial calculation
+        calculateTenure();
+    </script>
+</body>
+</html>
