@@ -1,0 +1,148 @@
+[
+  {
+    "id": "INC-20260320145210824",
+    "created_at": "2026-03-20T14:52:10.824073",
+    "fingerprint": "Failed to send email to <user>: SMTP connection refused",
+    "occurrence_count": 3,
+    "first_seen": "2026-03-20 11:45:21",
+    "last_seen": "2026-03-20 12:20:21",
+    "log_level": "ERROR",
+    "sample_log": "Failed to send email to user_1619: SMTP connection refused",
+    "all_messages": [
+      "Failed to send email to user_1619: SMTP connection refused",
+      "Failed to send email to user_1662: SMTP connection refused",
+      "Failed to send email to user_7815: SMTP connection refused"
+    ],
+    "severity": "ERROR",
+    "root_cause": "The SMTP server is likely down or misconfigured, preventing email delivery.",
+    "recommended_action": "Check the SMTP server status and configuration to resolve the connection issue.",
+    "status": "open"
+  },
+  {
+    "id": "INC-20260320145211711",
+    "created_at": "2026-03-20T14:52:11.711052",
+    "fingerprint": "Unhandled exception in /api/checkout: KeyError 'cart_id'",
+    "occurrence_count": 3,
+    "first_seen": "2026-03-20 11:46:21",
+    "last_seen": "2026-03-20 12:28:21",
+    "log_level": "ERROR",
+    "sample_log": "Unhandled exception in /api/checkout: KeyError 'cart_id'",
+    "all_messages": [
+      "Unhandled exception in /api/checkout: KeyError 'cart_id'",
+      "Unhandled exception in /api/checkout: KeyError 'cart_id'",
+      "Unhandled exception in /api/checkout: KeyError 'cart_id'"
+    ],
+    "severity": "ERROR",
+    "root_cause": "The application is attempting to access a 'cart_id' key in a dictionary that does not exist.",
+    "recommended_action": "Implement a check to ensure 'cart_id' is present before accessing it in the code.",
+    "status": "open"
+  },
+  {
+    "id": "INC-20260320145212486",
+    "created_at": "2026-03-20T14:52:12.486094",
+    "fingerprint": "DB connection pool at <N>% capacity",
+    "occurrence_count": 3,
+    "first_seen": "2026-03-20 11:59:21",
+    "last_seen": "2026-03-20 12:38:21",
+    "log_level": "WARNING",
+    "sample_log": "DB connection pool at 87% capacity",
+    "all_messages": [
+      "DB connection pool at 87% capacity",
+      "DB connection pool at 96% capacity",
+      "DB connection pool at 87% capacity"
+    ],
+    "severity": "WARNING",
+    "root_cause": "The database connection pool is nearing its maximum capacity, which may lead to connection failures.",
+    "recommended_action": "Increase the size of the database connection pool to accommodate more connections.",
+    "status": "open"
+  },
+  {
+    "id": "INC-20260320145213478",
+    "created_at": "2026-03-20T14:52:13.478888",
+    "fingerprint": "Redis connection lost \u00ef\u00bf\u00bd falling back to DB",
+    "occurrence_count": 2,
+    "first_seen": "2026-03-20 12:00:21",
+    "last_seen": "2026-03-20 12:17:21",
+    "log_level": "ERROR",
+    "sample_log": "Redis connection lost \u00ef\u00bf\u00bd falling back to DB",
+    "all_messages": [
+      "Redis connection lost \u00ef\u00bf\u00bd falling back to DB",
+      "Redis connection lost \u00ef\u00bf\u00bd falling back to DB"
+    ],
+    "severity": "ERROR",
+    "root_cause": "The application is unable to maintain a stable connection to the Redis server.",
+    "recommended_action": "Investigate the Redis server's status and network connectivity to resolve the connection issues.",
+    "status": "open"
+  },
+  {
+    "id": "INC-20260320145214473",
+    "created_at": "2026-03-20T14:52:14.473138",
+    "fingerprint": "Response time exceeded threshold: <Nms> for GET /api/reports",
+    "occurrence_count": 3,
+    "first_seen": "2026-03-20 12:05:21",
+    "last_seen": "2026-03-20 12:22:21",
+    "log_level": "WARNING",
+    "sample_log": "Response time exceeded threshold: 2243ms for GET /api/reports",
+    "all_messages": [
+      "Response time exceeded threshold: 2243ms for GET /api/reports",
+      "Response time exceeded threshold: 6620ms for GET /api/reports",
+      "Response time exceeded threshold: 2471ms for GET /api/reports"
+    ],
+    "severity": "WARNING",
+    "root_cause": "The response time for the GET /api/reports endpoint is consistently exceeding the acceptable threshold, likely due to high load or inefficient processing.",
+    "recommended_action": "Investigate the performance of the /api/reports endpoint and optimize the underlying queries or increase resources to handle the load.",
+    "status": "open"
+  },
+  {
+    "id": "INC-20260320145215307",
+    "created_at": "2026-03-20T14:52:15.307400",
+    "fingerprint": "Memory usage at <N>% \u00ef\u00bf\u00bd approaching limit",
+    "occurrence_count": 2,
+    "first_seen": "2026-03-20 12:07:21",
+    "last_seen": "2026-03-20 12:33:21",
+    "log_level": "WARNING",
+    "sample_log": "Memory usage at 80% \u00ef\u00bf\u00bd approaching limit",
+    "all_messages": [
+      "Memory usage at 80% \u00ef\u00bf\u00bd approaching limit",
+      "Memory usage at 94% \u00ef\u00bf\u00bd approaching limit"
+    ],
+    "severity": "WARNING",
+    "root_cause": "The application is consuming a high amount of memory, which may lead to performance degradation or crashes.",
+    "recommended_action": "Monitor memory usage closely and consider optimizing memory consumption or increasing available resources.",
+    "status": "open"
+  },
+  {
+    "id": "INC-20260320145216073",
+    "created_at": "2026-03-20T14:52:16.073827",
+    "fingerprint": "Retry attempt <N>/<N> for payment gateway",
+    "occurrence_count": 1,
+    "first_seen": "2026-03-20 12:18:21",
+    "last_seen": "2026-03-20 12:18:21",
+    "log_level": "WARNING",
+    "sample_log": "Retry attempt 1/3 for payment gateway",
+    "all_messages": [
+      "Retry attempt 1/3 for payment gateway"
+    ],
+    "severity": "WARNING",
+    "root_cause": "The payment gateway is experiencing temporary issues, leading to retry attempts.",
+    "recommended_action": "Monitor the payment gateway status and consider implementing fallback mechanisms.",
+    "status": "open"
+  },
+  {
+    "id": "INC-20260320145216881",
+    "created_at": "2026-03-20T14:52:16.881927",
+    "fingerprint": "Deprecated API endpoint /v1/users called by <user>",
+    "occurrence_count": 1,
+    "first_seen": "2026-03-20 12:39:21",
+    "last_seen": "2026-03-20 12:39:21",
+    "log_level": "WARNING",
+    "sample_log": "Deprecated API endpoint /v1/users called by user_4614",
+    "all_messages": [
+      "Deprecated API endpoint /v1/users called by user_4614"
+    ],
+    "severity": "WARNING",
+    "root_cause": "The application is using a deprecated API endpoint that may be removed in future versions.",
+    "recommended_action": "Update the application to use the latest API endpoint to ensure continued functionality.",
+    "status": "open"
+  }
+]
