@@ -1,4 +1,4 @@
-# ai-assited-report-generator
+# ai-assisted-report-generator
 
 Reads any CSV file, uses Azure OpenAI to decide what metrics and charts to generate, and exports a polished PDF report.
 
@@ -7,7 +7,7 @@ Reads any CSV file, uses Azure OpenAI to decide what metrics and charts to gener
 ## Files
 
 ```
-ai-assited-report-generator/
+ai-assisted-report-generator/
 ├── generate_report.py       # Main agent
 ├── generate_sample_csv.py    # Generate test CSV using AI
 ├── requirements.txt
