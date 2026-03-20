@@ -1,0 +1,101 @@
+patient_id,first_name,last_name,date_of_birth,admission_date,diagnosis_code,length_of_stay_days,total_cost,insurance_provider
+1001,Alice,Smith,1979-02-15,2024-01-10,I10,4,1800.25,Aetna
+1002,Michael,Johnson,1988-05-20,2024-01-12,E78.5,7,3500.5,Cigna
+1003,Sophia,Williams,1992-12-30,2024-01-15,J45.909,3,1500.75,United Healthcare
+1004,James,Brown,1965-07-01,2024-01-18,K21.9,5,2700.9,Anthem
+1005,Olivia,Jones,1973-11-25,2024-01-20,F41.9,6,2200.45,Blue Cross Blue Shield
+1006,William,Garcia,1980-04-10,2024-01-22,M54.5,8,3100.0,Humana
+1007,Emma,Martinez,1995-03-14,2024-01-25,N39.0,2,900.6,Medicare
+1008,Lucas,Davis,1987-06-18,2024-01-28,E11.9,4,1950.3,Cigna
+1009,Chloe,Rodriguez,1990-09-05,2024-02-01,I25.110,5,2050.75,Aetna
+1010,Daniel,Hernandez,1968-01-13,2024-02-03,F32.9,9,3700.8,United Healthcare
+1011,Mia,Lopez,1985-05-25,2024-02-05,J30.9,3,1100.2,Anthem
+1012,Noah,Gonzalez,1993-10-23,2024-02-07,K52.9,7,2800.6,Blue Cross Blue Shield
+1013,Avery,Wilson,1978-11-15,2024-02-10,R10.9,4,1600.4,Humana
+1014,Ethan,Anderson,1972-08-30,2024-02-13,M51.17,5,2200.8,Medicare
+1015,Grace,Thomas,1981-03-11,2024-02-20,H10.9,6,3000.0,Cigna
+1016,David,Jackson,1996-07-29,2024-02-22,S20.9,2,850.5,Aetna
+1017,Zoe,White,1983-04-06,2024-03-01,L40.9,5,2100.75,United Healthcare
+1018,James,Harris,1975-09-12,2024-03-05,I63.9,8,3600.9,Anthem
+1019,Natalie,Clark,1994-12-02,2024-03-10,E66.9,3,1400.4,Humana
+1020,Liam,Lewis,1989-05-20,2024-03-13,J18.9,4,950.75,Blue Cross Blue Shield
+1021,Ella,Robinson,1977-01-14,2024-03-15,G30.9,6,2650.85,Medicare
+1022,Mason,Walker,1991-08-22,2024-03-18,K57.30,5,2300.95,Cigna
+1023,Aiden,Hall,1998-11-10,2024-03-20,F10.20,3,1200.6,Aetna
+1024,Sienna,Young,1986-02-17,2024-03-22,M25.50,7,3100.3,United Healthcare
+1025,Wyatt,King,1972-09-30,2024-03-25,R51,4,1800.15,Humana
+1001,Emily,Smith,1988-02-14,2024-01-15,J45.909,3,1500.5,Aetna
+1002,Michael,Johnson,1975-11-22,2024-02-08,I10,7,3200.25,Cigna
+1003,Jessica,Williams,1990-07-30,2024-03-05,E11.9,2,980.75,United Healthcare
+1004,David,Brown,1982-12-05,2024-01-20,K35.80,5,2400.0,Humana
+1005,Sarah,Jones,1978-04-17,2024-01-30,M54.5,4,2000.0,Blue Shield
+1006,James,Garcia,1995-09-12,2024-02-18,F32.9,6,1500.1,Anthem
+1007,Linda,Martinez,1984-03-24,2024-03-10,I50.9,8,2800.55,Kaiser Permanente
+1008,Daniel,Hernandez,1970-06-11,2024-04-01,E78.5,4,1100.75,Health Net
+1009,Patricia,Lopez,1965-08-30,2024-03-20,J44.9,10,3400.4,Blue Cross Blue Shield
+1010,Robert,Wilson,1992-05-15,2024-02-25,N18.9,5,1800.45,Principal
+1011,Laura,Anderson,1987-10-02,2024-06-15,R53.81,3,950.25,CVS Health
+1012,Kevin,Thomas,1968-01-23,2024-05-20,M25.50,6,2200.0,Medicare
+1013,Susan,Jackson,1979-09-17,2024-04-28,F41.9,4,1300.8,WellCare
+1014,Joshua,White,1999-03-05,2024-05-11,I83.90,7,2600.99,United Healthcare
+1015,Nancy,Harris,1960-12-12,2024-06-02,K80.20,3,1250.7,Anthem
+1016,Paul,Martin,1991-07-28,2024-06-22,G47.30,5,1600.4,Aetna
+1017,Angela,Thompson,1981-08-14,2024-07-15,M54.2,8,2950.0,Cigna
+1018,Steven,Garcia,1974-04-09,2024-08-01,I25.10,7,2100.85,Blue Shield
+1019,Christine,Martinez,1993-01-29,2024-08-20,F32.9,3,999.99,Medicare
+1020,Megan,Roberts,1985-10-13,2024-09-04,E78.2,6,2200.45,United Healthcare
+1021,Andrew,Robinson,1994-02-16,2024-09-18,K81.0,4,1450.25,Health Net
+1022,Patty,King,1983-11-30,2024-10-02,N39.0,5,1750.55,WellCare
+1023,Eric,Scott,1977-06-15,2024-10-12,M17.9,3,1200.0,Aetna
+1024,Samantha,Young,1996-12-01,2024-10-28,G47.00,4,1100.25,Blue Cross Blue Shield
+1025,Daniel,Harris,1989-03-12,2024-11-03,F34.9,5,1950.75,Principal
+1001,Emily,Smith,1990-03-12,2024-01-15,J45.909,3,1300.5,United Healthcare
+1002,Michael,Johnson,1982-07-22,2024-01-10,I10,5,2567.3,Aetna
+1003,Sophia,Williams,1978-11-05,2024-02-02,E11.9,7,3050.75,Cigna
+1004,James,Brown,1965-09-30,2024-02-15,K21.9,4,1790.8,Blue Cross Blue Shield
+1005,Isabella,Jones,2002-01-22,2024-03-05,F41.1,2,890.0,Humana
+1006,Lucas,Garcia,1998-06-14,2024-03-20,H25.9,6,2100.45,Medicare
+1007,Ava,Miller,1988-02-18,2024-04-12,R51,3,1020.25,Kaiser Permanente
+1008,Ethan,Davis,1975-12-01,2024-04-25,E78.5,8,3480.6,WellCare
+1009,Charlotte,Rodriguez,1995-04-26,2024-05-08,G43.909,1,675.15,United Healthcare
+1010,Daniel,Martinez,1981-10-14,2024-06-01,I63.9,10,4200.0,Cigna
+1011,Mia,Hernandez,1993-08-27,2024-06-15,L40.9,5,1985.75,Aetna
+1012,Jacob,Lopez,1970-05-30,2024-07-10,C34.90,12,5500.2,Blue Cross Blue Shield
+1013,Aiden,Wilson,1984-04-14,2024-07-20,F32.9,4,1345.9,Humana
+1014,Olivia,Anderson,1999-09-09,2024-08-01,M54.5,3,860.0,Kaiser Permanente
+1015,William,Thomas,1962-03-25,2024-08-18,J44.9,6,2704.85,Medicare
+1016,Sophia,Taylor,1986-12-30,2024-09-02,E87.70,7,3375.55,WellCare
+1017,David,Moore,1979-07-19,2024-09-15,K80.20,9,4100.9,United Healthcare
+1018,Amelia,Jackson,1991-05-04,2024-10-11,H10.9,2,700.45,Aetna
+1019,Liam,White,1989-11-18,2024-10-20,G43.909,4,1215.0,Cigna
+1020,Ella,Harris,2000-04-22,2024-11-01,I50.9,5,1800.8,Blue Cross Blue Shield
+1021,Noah,Clark,1974-03-15,2024-11-10,F41.9,3,920.6,Humana
+1022,Chloe,Lewis,1996-06-27,2024-11-15,L29.9,6,2290.4,WellCare
+1023,Mason,Young,1987-08-05,2024-12-01,H54.7,8,3400.9,Cigna
+1024,Grace,King,1992-10-10,2024-12-15,M79.601,2,765.25,Aetna
+1025,Alexander,Scott,1968-01-02,2024-12-20,E11.9,5,1250.0,Medicare
+1001,Alice,Johnson,1988-04-12,2024-01-15,I10,3,1550.25,Aetna
+1002,Michael,Smith,1975-08-30,2024-02-02,E11.65,7,3450.5,United Healthcare
+1003,Sophia,Davis,1992-11-05,2024-03-10,J45.909,4,2020.75,Blue Cross Blue Shield
+1004,Liam,Brown,1965-02-18,2024-01-25,I25.10,5,2767.8,Cigna
+1005,Emma,Garcia,1983-03-22,2024-04-05,K35.80,2,980.0,Humana
+1006,Noah,Martinez,1978-12-14,2024-05-18,M54.5,6,2389.4,Anthem
+1007,Olivia,Hernandez,1995-07-19,2024-02-20,F41.9,1,450.0,Medicare
+1008,James,Lopez,1980-06-23,2024-03-15,A09,8,4300.6,Kaiser Permanente
+1009,Isabella,Wilson,1990-04-03,2024-06-01,G47.00,5,1820.2,HealthPartners
+1010,Ethan,Anderson,1987-09-15,2024-01-30,R10.9,4,1450.9,WellCare
+1011,Mia,Taylor,1998-01-27,2024-02-10,E66.9,3,1250.0,Fidelis Care
+1012,Aiden,Thomas,1989-11-11,2024-03-25,B20,10,5120.75,Molina Healthcare
+1013,Charlotte,Jackson,1972-05-10,2024-04-02,I50.9,6,3210.3,Priority Health
+1014,Lucas,White,1993-12-21,2024-01-11,J44.9,7,2900.0,Independence Blue Cross
+1015,Amelia,Harris,1986-06-30,2024-05-12,K52.9,2,650.0,Oscar Health
+1016,Jackson,Martin,1979-03-17,2024-03-30,M51.9,8,4325.6,Celtic Insurance
+1017,Mason,Thompson,1991-07-14,2024-02-28,G56.00,4,1780.0,HealthFirst
+1018,Evelyn,Garcia,1982-08-27,2024-06-18,K80.20,9,3990.1,Geisinger Health Plan
+1019,Henry,Martinez,1980-10-02,2024-01-09,N39.0,5,1875.3,Highmark
+1020,Lily,Lopez,1976-06-15,2024-03-22,C50.919,3,1350.25,Harmony Health
+1021,Oliver,Gonzalez,1984-09-08,2024-02-04,F32.9,2,920.75,Magnolia Health
+1022,Sofia,Wilson,1994-05-20,2024-01-19,H54.7,5,1725.4,Banyan Health
+1023,Jacob,Young,1999-02-12,2024-04-15,L40.0,2,530.2,Blue Shield
+1024,Chloe,Walker,1997-11-10,2024-06-25,K71.5,4,1400.55,Walmart Health
+1025,Daniel,Hall,1981-03-15,2024-05-27,S83.5,10,5750.8,AARP Medicare
