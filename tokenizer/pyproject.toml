@@ -1,0 +1,17 @@
+[project]
+name = "tokenizer"
+version = "0.1.0"
+description = "Count the number of tokens in a PDF using tiktoken."
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "tiktoken>=0.5.0",
+    "pypdf>=4.0.0",
+]
+
+[project.scripts]
+count-tokens = "count_tokens:main"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
